@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1020750557862-j3p0rf3trp0lojjhs0ffoi11u539ldco.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1020750557862-j3p0rf3trp0lojjhs0ffoi11u539ldco</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1020750557862-ckoldbutt84nes8vtolnvhmhjojstq7u.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCZmUN4nRrTqaif0fvZL5edpavBLtSQQO4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1020750557862</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.wellness.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>wellness-6082a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wellness-6082a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1020750557862:ios:e116e51f4e0cdef4e4ba67</string>
+</dict>
+</plist>
