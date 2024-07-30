@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1020750557862",
+    "firebase_url": "https://wellness-6082a-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "wellness-6082a",
     "storage_bucket": "wellness-6082a.appspot.com"
   },
@@ -37,6 +38,13 @@
             {
               "client_id": "1020750557862-266538g2bqokgu35b2jgm482asvgmndl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1020750557862-5gjq9rq1ag4f24179v5fvjn0cbhm8ud0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.imok.wellness"
+              }
             }
           ]
         }

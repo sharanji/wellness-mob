@@ -60,6 +60,7 @@ dependencies:
   intl:  
   curved_labeled_navigation_bar: ^2.0.2
   list_tile_switch: ^1.0.0
+  country_picker: ^2.0.26
 
   workmanager:
 

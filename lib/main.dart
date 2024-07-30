@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (ctx) => ThemeProvider(),
       builder: (context, child) => GetMaterialApp(
-        title: 'Wellness check',
+        title: 'Imok Wellness check',
         themeMode:
             Provider.of<ThemeProvider>(context).isDarkTheme ? ThemeMode.dark : ThemeMode.light,
         theme: AppTheme.themeData,

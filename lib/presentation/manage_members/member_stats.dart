@@ -24,22 +24,24 @@ class _MemberStatsState extends State<MemberStats> {
       appBar: AppBar(
         title: Text(widget.memberDetail['name']),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Past24HoursData(userId: widget.memberId),
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Memeber Tacking Mode : ',
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Past24HoursData(userId: widget.memberId),
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                'Memeber Tacking Mode : ',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          PercentageandMode(userId: widget.memberId),
-        ],
+            PercentageandMode(userId: widget.memberId),
+          ],
+        ),
       ),
     );
   }

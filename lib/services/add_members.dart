@@ -122,17 +122,16 @@ class AddMember {
               GestureDetector(
                 onTap: () async {
                   if (!_formKey.currentState!.validate()) return;
-                  await http.post(
-                    Uri.parse(
-                        'https://wellness-check-3tptp716d-sharanjis-projects.vercel.app/api/send_message'),
+                  var reponse = await http.post(
+                    Uri.parse('https://wellness-checker.vercel.app/api/send_message'),
                     body: json.encode(
                       {
-                        "parentId":
-                            'NAOd8lfxMxanusqpBunEj3SjU922', // FirebaseAuth.instance.currentUser!.uid,
+                        "parentId": FirebaseAuth.instance.currentUser!.uid,
                         "message": messageController.text
                       },
                     ),
                   );
+                  Get.back();
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 20),

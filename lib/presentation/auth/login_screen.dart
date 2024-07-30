@@ -147,7 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      forgotPassword();
+                    },
                     child: const Text(AppStrings.forgotPassword),
                   ),
                   const SizedBox(height: 20),
@@ -301,9 +303,92 @@ class _LoginPageState extends State<LoginPage> {
         'Authentication Success',
         AppStrings.loggedIn,
       );
-    } on Exception catch (_) {
-      Get.snackbar('Authentication Failed', 'Invalid Credentials');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Get.snackbar('Authentication Failed', 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar('Authentication Failed', 'Wrong password provided for that user.');
+      } else {
+        Get.snackbar('Authentication Failed', 'Invalid Credentials');
+      }
     }
     return null;
+  }
+
+  void forgotPassword() {
+    TextEditingController messageController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.white,
+        child: Container(
+          // height: 160,
+          // // width: 200,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Enter Email Id',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blueGrey,
+                ),
+              ),
+              const SizedBox(height: 50),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: messageController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? AppStrings.pleaseEnterEmailAddress
+                        : AppConstants.emailRegex.hasMatch(value)
+                            ? null
+                            : AppStrings.invalidEmailAddress;
+                  },
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  if (!_formKey.currentState!.validate()) return;
+                  try {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: messageController.text);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Reset link sent to your email')),
+                    );
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Text(
+                    'Send Reset Link',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

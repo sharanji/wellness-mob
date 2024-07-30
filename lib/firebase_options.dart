@@ -58,6 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:1020750557862:android:fa6e22d6cf2b64d0e4ba67',
     messagingSenderId: '1020750557862',
     projectId: 'wellness-6082a',
+    databaseURL: 'https://wellness-6082a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'wellness-6082a.appspot.com',
   );
 
