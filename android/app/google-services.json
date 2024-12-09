@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1020750557862:android:fa6e22d6cf2b64d0e4ba67",
+        "mobilesdk_app_id": "1:1020750557862:android:a7d75eb9804dce9de4ba67",
         "android_client_info": {
-          "package_name": "com.example.wellness"
+          "package_name": "com.wellness.iamok"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1020750557862-ckoldbutt84nes8vtolnvhmhjojstq7u.apps.googleusercontent.com",
+          "client_id": "1020750557862-d142gul6fhonmupl773k65ull02rtl3n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.wellness",
+            "package_name": "com.wellness.iamok",
             "certificate_hash": "0496284123b7d3aebd9b35e44212aff40f7a3f8f"
           }
         },

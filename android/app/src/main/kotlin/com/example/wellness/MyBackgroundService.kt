@@ -1,4 +1,4 @@
-package com.example.wellness
+package com.wellness.iamok
 
 import android.app.Notification
 import android.app.NotificationChannel

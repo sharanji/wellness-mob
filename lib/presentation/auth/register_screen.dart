@@ -234,6 +234,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   'photoUrl':
                                       "https://i.pinimg.com/736x/ba/d7/86/bad786dfe4f227555be6fa2484b0b9a3.jpg",
                                   'status': 'Daily Routine',
+                                  "alert_interval": 2,
+                                  'sleepEnd': 0,
+                                  'sleepStart': 0,
+                                  'last_active': FieldValue.serverTimestamp(),
                                 }).then((value) async {
                                   if (FirebaseAuth.instance.currentUser != null) {
                                     await screenStatuschannel.invokeMethod('startService',
@@ -241,6 +245,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                   Navigator.of(context).pushNamed(CommanDashboard.routeName);
                                 });
+
                                 nameController.clear();
                                 emailController.clear();
                                 passwordController.clear();

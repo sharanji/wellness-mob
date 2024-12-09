@@ -20,7 +20,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
-const screenStatuschannel = MethodChannel('com.example.wellness/screenStatus');
+const screenStatuschannel = MethodChannel('com.wellness.iamok/screenStatus');
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -32,15 +32,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Message notification: ${message.notification?.body}');
   }
 }
-
-// Future<void> initializeWorkManager(userId) async {
-//   const platform = MethodChannel('com.example.wellness/workmanager');
-//   try {
-//     await platform.invokeMethod('initializeWorkManager', {"userId": userId});
-//   } on PlatformException catch (e) {
-//     print("Failed to initialize WorkManager: '${e.message}'.");
-//   }
-// }
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {

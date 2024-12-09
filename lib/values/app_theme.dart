@@ -14,6 +14,7 @@ class AppTheme {
     scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 252),
     primaryColor: Colors.blue,
     cardColor: Color.fromARGB(66, 210, 210, 210),
+    fontFamily: 'KumbhSans',
     textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontWeight: FontWeight.bold,
@@ -48,7 +49,7 @@ class AppTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.blue,
         padding: const EdgeInsets.all(4),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),

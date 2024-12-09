@@ -1,4 +1,4 @@
-package com.example.wellness
+package com.wellness.iamok
 
 import android.content.Intent
 import android.os.Bundle
@@ -25,8 +25,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.example.wellness/screenStatus"
-    private val CHANNEL_work = "com.example.wellness/workmanager"
+    private val CHANNEL = "com.wellness.iamok/screenStatus"
+    private val CHANNEL_work = "com.wellness.iamok/workmanager"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

@@ -16,206 +16,216 @@ class PercentageandMode extends StatelessWidget {
     DateTime yesterday = now.subtract(const Duration(days: 1));
     Timestamp timestamp24HoursAgo = Timestamp.fromDate(yesterday);
     List<dynamic> snapShotData = [];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Container(
-              height: 180,
-              width: (MediaQuery.of(context).size.width / 2) - 30,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
+    return FutureBuilder(
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        builder: (ctx, userInfosnapshot) {
+          if (userInfosnapshot.connectionState == ConnectionState.waiting) {
+            return const CupertinoActivityIndicator();
+          }
+          var userInfo = userInfosnapshot.data!.data();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('screen_status')
-                          .doc(userId)
-                          .collection('records')
-                          .where('timestamp', isGreaterThan: timestamp24HoursAgo)
-                          .snapshots(),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const SizedBox(
-                            height: 150,
-                            child: Center(child: CupertinoActivityIndicator()),
-                          );
-                        }
+                  Container(
+                    height: 180,
+                    width: (MediaQuery.of(context).size.width / 2) - 30,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('screen_status')
+                                .doc(userId)
+                                .collection('records')
+                                .where('timestamp', isGreaterThan: timestamp24HoursAgo)
+                                .snapshots(),
+                            builder: (context, AsyncSnapshot snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const SizedBox(
+                                  height: 150,
+                                  child: Center(child: CupertinoActivityIndicator()),
+                                );
+                              }
 
-                        // snapShotData = snapshot.data!.data()!['records'] ?? [];
-                        if (snapshot.data != null) {
-                          snapShotData = snapshot.data!.docs.map((data) => data.data()).toList();
-                        }
-                        snapShotData.add({'status': "Screen On", 'timestamp': Timestamp.now()});
+                              // snapShotData = snapshot.data!.data()!['records'] ?? [];
+                              if (snapshot.data != null) {
+                                snapShotData =
+                                    snapshot.data!.docs.map((data) => data.data()).toList();
+                              }
+                              snapShotData
+                                  .add({'status': "Screen On", 'timestamp': Timestamp.now()});
 
-                        Duration totalScreenTime = calculateScreenOnTime(snapShotData);
+                              Duration totalScreenTime = calculateScreenOnTime(snapShotData);
 
-                        return SizedBox(
-                          height: 150,
-                          child: SfCircularChart(
-                            key: GlobalKey(),
-                            series: _getRadialBarDefaultSeries(totalScreenTime.inMinutes),
-                            annotations: [
-                              CircularChartAnnotation(
-                                widget: Text('${totalScreenTime.inMinutes} Mins'),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                  const Text(
-                    '24 Hour Screen Time',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
+                              return SizedBox(
+                                height: 150,
+                                child: SfCircularChart(
+                                  key: GlobalKey(),
+                                  series: _getRadialBarDefaultSeries(totalScreenTime.inMinutes),
+                                  annotations: [
+                                    CircularChartAnnotation(
+                                      widget: Text('${totalScreenTime.inMinutes} Mins'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                        const Text(
+                          '24 Hour Screen Time',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.find<AuthController>().navIndex.value = 1;
+                    },
+                    child: Container(
+                      height: 180,
+                      width: (MediaQuery.of(context).size.width / 2) - 30,
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection('tracking_modes')
+                              .where('mode_name', isEqualTo: userInfo!['mode_name'])
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    height: 120,
+                                    width: 80,
+                                    child: Image.network(snapshot.data!.docs.first.data()['icon']),
+                                  ),
+                                  Text(
+                                    snapshot.data!.docs.first.data()['mode_name'],
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              );
+                            }
+
+                            return const CupertinoActivityIndicator();
+                          }),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.find<AuthController>().navIndex.value = 1;
-              },
-              child: Container(
-                height: 180,
-                width: (MediaQuery.of(context).size.width / 2) - 30,
+              const Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  'Sleep Analytics',
+                  style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                // height: 100,
+                // width: MediaQuery.of(context).size.width / 1.11,
+                width: double.infinity,
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: FutureBuilder(
-                    future: FirebaseFirestore.instance
-                        .collection('tracking_modes')
-                        .where('mode_name',
-                            isEqualTo: Get.find<AuthController>().userDetails['mode_name'])
-                        .get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              height: 120,
-                              width: 80,
-                              child: Image.network(snapshot.data!.docs.first.data()['icon']),
-                            ),
-                            Text(
-                              snapshot.data!.docs.first.data()['mode_name'],
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 150,
+                          child: Center(child: CupertinoActivityIndicator()),
                         );
                       }
 
-                      return const CupertinoActivityIndicator();
-                    }),
-              ),
-            ),
-          ],
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 15),
-          child: Text(
-            'Sleep Analytics',
-            style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          // height: 100,
-          // width: MediaQuery.of(context).size.width / 1.11,
-          width: double.infinity,
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(
-                    height: 150,
-                    child: Center(child: CupertinoActivityIndicator()),
-                  );
-                }
+                      bool sleepStartAm = true;
+                      bool sleepEndAm = true;
 
-                bool sleepStartAm = true;
-                bool sleepEndAm = true;
+                      var actsleepStart = snapshot.data.data()['sleepStart'].isNaN
+                          ? 0
+                          : snapshot.data.data()['sleepStart'];
+                      var actsleepEnd = snapshot.data.data()['sleepEnd'].isNaN
+                          ? 0
+                          : snapshot.data.data()['sleepEnd'];
 
-                var actsleepStart = snapshot.data.data()['sleepStart'].isNaN
-                    ? 0
-                    : snapshot.data.data()['sleepStart'];
-                var actsleepEnd =
-                    snapshot.data.data()['sleepEnd'].isNaN ? 0 : snapshot.data.data()['sleepEnd'];
+                      // Fetch and round the sleep start and end times
+                      var sleepStart = (actsleepStart).round();
+                      if (sleepStart > 12) {
+                        sleepStartAm = false;
+                      }
+                      if (sleepStart > 12) {
+                        sleepStart -= 12;
+                      }
 
-                // Fetch and round the sleep start and end times
-                var sleepStart = (actsleepStart).round();
-                if (sleepStart > 12) {
-                  sleepStartAm = false;
-                }
-                if (sleepStart > 12) {
-                  sleepStart -= 12;
-                }
+                      var sleepEnd = (actsleepEnd).round();
 
-                var sleepEnd = (actsleepEnd).round();
+                      if (sleepEnd > 12) {
+                        sleepEndAm = false;
+                      }
+                      if (sleepEnd > 12) {
+                        sleepEnd -= 12;
+                      }
 
-                if (sleepEnd > 12) {
-                  sleepEndAm = false;
-                }
-                if (sleepEnd > 12) {
-                  sleepEnd -= 12;
-                }
+                      dynamic sleepDuration;
+                      if (actsleepStart > actsleepEnd) {
+                        sleepDuration = (24 - actsleepStart) + actsleepEnd;
+                      } else {
+                        sleepDuration = actsleepEnd - actsleepStart;
+                      }
 
-                dynamic sleepDuration;
-                if (actsleepStart > actsleepEnd) {
-                  sleepDuration = (24 - actsleepStart) + actsleepEnd;
-                } else {
-                  sleepDuration = actsleepEnd - actsleepStart;
-                }
+                      if (sleepDuration == 0) {
+                        return const SizedBox(
+                          height: 50,
+                          child: Center(child: Text('No Sufficient Data for Sleeping Time')),
+                        );
+                      }
 
-                if (sleepDuration == 0) {
-                  return const SizedBox(
-                    height: 50,
-                    child: Center(child: Text('No Sufficient Data for Sleeping Time')),
-                  );
-                }
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: SfCircularChart(
-                        key: GlobalKey(),
-                        series: _getSleepRadialChart(sleepDuration),
-                        annotations: [
-                          CircularChartAnnotation(
-                            widget: Text('${sleepDuration.round()} Hours'),
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: 150,
+                            width: 150,
+                            child: SfCircularChart(
+                              key: GlobalKey(),
+                              series: _getSleepRadialChart(sleepDuration),
+                              annotations: [
+                                CircularChartAnnotation(
+                                  widget: Text('${sleepDuration.round()} Hours'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Avg Sleep Time : ${sleepStart.toString().padLeft(2, '0')}:00 ${sleepStartAm ? 'AM' : 'PM'}',
+                              ),
+                              Text(
+                                'Avg Wake At: ${sleepEnd.toString().padLeft(2, '0')}:00 ${sleepEndAm ? 'AM' : 'PM'}',
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Avg Sleep Time : ${sleepStart.toString().padLeft(2, '0')}:00 ${sleepStartAm ? 'AM' : 'PM'}',
-                        ),
-                        Text(
-                          'Avg Wake At: ${sleepEnd.toString().padLeft(2, '0')}:00 ${sleepEndAm ? 'AM' : 'PM'}',
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              }),
-        ),
-      ],
-    );
+                      );
+                    }),
+              ),
+            ],
+          );
+        });
   }
 
   Duration calculateScreenOnTime(List events) {
