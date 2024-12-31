@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellness/values/app_theme_2.dart';
 
 import 'app_colors.dart';
 
@@ -13,6 +14,7 @@ class AppTheme {
     // colorSchemeSeed: AppColors.primaryColor,
     scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 252),
     primaryColor: Colors.blue,
+    primaryColorLight: HexColor('#D0F5FF'),
     cardColor: Color.fromARGB(66, 210, 210, 210),
     fontFamily: 'KumbhSans',
     textTheme: const TextTheme(

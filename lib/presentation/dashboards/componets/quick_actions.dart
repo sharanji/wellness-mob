@@ -42,57 +42,49 @@ class _QucikActionsState extends State<QucikActions> {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.all(10),
-          // height: MediaQuery.of(context).size.height * 0.35,
-          child: Column(
-            children: [
-              for (int i = 0; i < categoryList.length; i++)
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: categoryList[i]['action'],
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+        Column(
+          children: [
+            for (int i = 0; i < categoryList.length; i++)
+              GestureDetector(
+                onTap: categoryList[i]['action'],
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          // color: Color.fromARGB(255, 105, 205, 255),
                         ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              padding: const EdgeInsets.all(5),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                // color: Color.fromARGB(255, 105, 205, 255),
-                              ),
-                              child: Image.asset(
-                                categoryList[i]['iconPath'],
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Text(
-                              categoryList[i]['title'],
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                            const Spacer(),
-                            const SizedBox(
-                              height: 30,
-                              child: Icon(Icons.chevron_right),
-                            ),
-                          ],
+                        child: Image.asset(
+                          categoryList[i]['iconPath'],
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
-                    Divider(
-                      color: Theme.of(context).cardColor,
-                    ),
-                  ],
+                      const SizedBox(width: 20),
+                      Text(
+                        categoryList[i]['title'],
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      const SizedBox(
+                        height: 30,
+                        child: Icon(Icons.chevron_right),
+                      ),
+                    ],
+                  ),
                 ),
-            ],
-          ),
-        )
+              ),
+          ],
+        ),
       ],
     );
   }

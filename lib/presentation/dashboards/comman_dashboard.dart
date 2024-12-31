@@ -153,23 +153,16 @@ class _CommanDashboardState extends State<CommanDashboard> {
       height: 60,
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).cardColor
-            : Theme.of(context).cardColor,
-      ),
+          // color: Theme.of(context).brightness == Brightness.dark
+          //     ? Theme.of(context).cardColor
+          //     : Theme.of(context).cardColor,
+          ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: <Widget>[
-              Text(
-                'Wellness!',
-                style: TextStyle(
-                  fontSize: 20,
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              SizedBox(width: 150, child: Image.asset('assets/new_logo.png')),
               const Spacer(),
               StreamBuilder(
                   stream: FirebaseFirestore.instance
@@ -187,7 +180,11 @@ class _CommanDashboardState extends State<CommanDashboard> {
                       },
                       child: Badge(
                         label: Text(count.toString()),
-                        child: const Icon(Icons.notifications),
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Image.asset('assets/notification.png'),
+                        ),
                       ),
                     );
                   }),
